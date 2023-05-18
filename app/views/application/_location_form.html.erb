@@ -1,0 +1,81 @@
+<%
+  add_view_stylesheet("location_form")
+
+  action ||= nil
+  results_anchor ||= "error"
+  form_method ||= "post"
+  margin_top ||= nil
+
+  css_classes = %w[postcode-search-form]
+  css_classes << "govuk-!-margin-top-#{margin_top}" if margin_top
+%>
+
+<%= tag.div class: css_classes, data: {
+          "module":"track-submit",
+          "track-category":"postcodeSearch:#{publication_format}",
+          "track-action":"postcodeSearchStarted",
+} do %>
+  <% if @location_error %>
+    <%= render "govuk_publishing_components/components/error_summary", {
+      id: results_anchor,
+      title: t("formats.local_transaction.error_summary_title"),
+      data_attributes: {
+        module: "auto-track-event",
+        track_category: "userAlerts: #{publication_format}",
+        track_action: "postcodeErrorShown: #{@location_error.postcode_error}",
+        track_label: t(@location_error.message, **@location_error.message_args)
+      },
+      items: [
+        {
+          text: t(@location_error.message, **@location_error.message_args),
+          href: "#postcode"
+        }
+      ]
+    } %>
+  <% end %>
+
+  <%= form_with(
+    id: "local-locator-form",
+    url: action,
+    class: "location-form govuk-!-margin-bottom-9",
+    method: form_method,
+  ) do | form | %>
+
+    <%
+      #TODO: Add a visually hidden legend option to the fieldset component; then
+      #      the component can be used here.
+      add_gem_component_stylesheet("fieldset")
+    %>
+    <fieldset class="govuk-fieldset">
+      <legend class=" govuk-fieldset__legend govuk-visually-hidden"><%= t('formats.local_transaction.postcode_lookup') %></legend>
+
+      <%= render partial: 'draft_fields' %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: t('formats.local_transaction.enter_postcode')
+        },
+        value: postcode,
+        name: "postcode",
+        id: "postcode",
+        hint: t('formats.local_transaction.postcode_hint'),
+        invalid: @location_error ? 'true' : 'false',
+        autocomplete: "postal-code",
+        error_message: (t(@location_error.message, **@location_error.message_args) if @location_error)
+      } %>
+
+      <%= render "govuk_publishing_components/components/button",
+        text: t("find"),
+        margin_bottom: true
+      %>
+
+      <%= tag.p link_to(t('formats.local_transaction.find_postcode_royal_mail'),
+        "https://www.royalmail.com/find-a-postcode",
+        id: 'postcode-finder-link',
+        class: "govuk-link",
+        rel: "external"),
+        class: "govuk-body"
+      %>
+    </fieldset>
+  <% end %>
+<% end %>

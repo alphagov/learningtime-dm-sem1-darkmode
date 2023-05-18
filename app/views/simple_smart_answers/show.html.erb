@@ -1,0 +1,36 @@
+<% content_for :extra_headers do %>
+  <%= render "govuk_publishing_components/components/machine_readable_metadata",
+    schema: :article,
+    content_item: content_item_hash %>
+<% end %>
+
+<%= render layout: "shared/base_page", locals: {
+  title: publication.title,
+  publication: publication,
+  edition: @edition
+} do %>
+  <div class="intro">
+    <%= render "govuk_publishing_components/components/govspeak" do %>
+      <%= raw publication.body %>
+    <% end %>
+    <p class="get-started">
+      <%= render "govuk_publishing_components/components/button",
+        text: publication.start_button_text.html_safe,
+        rel: "nofollow",
+        start: true,
+        margin_bottom: true,
+        href: smart_answer_flow_path(slug: publication.slug, edition: @edition),
+        data_attributes: {
+          module: 'ga4-link-tracker',
+          ga4_link: {
+            event_name: "form_start",
+            type: "simple smart answer",
+            section: "start page",
+            action: "start",
+            tool_name: publication.title,
+          }
+        }
+      %>
+    </p>
+  </div>
+<% end %>

@@ -1,0 +1,77 @@
+@import "govuk_publishing_components/individual_component_support";
+
+.travel-container {
+  .country-filter-form {
+    display: none;
+
+    .js-enabled & {
+      display: block;
+    }
+  }
+
+  .country-filter-form__form-group {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .subscriptions-wrapper {
+    @include govuk-media-query($from: tablet) {
+      .js-enabled & {
+        text-align: right;
+      }
+    }
+  }
+
+  .app-full-width-break {
+    clear: both;
+    margin-right: govuk-spacing(3);
+    margin-left: govuk-spacing(3);
+  }
+
+  .countries__heading {
+    margin: 0;
+  }
+
+  .country-count {
+    margin: 0;
+  }
+
+  .filter-count,
+  .countries-initial-letter {
+    @include govuk-font(80, $weight: bold);
+  }
+
+  .countries-initial-letter {
+    margin-top: .37em;
+    margin-bottom: govuk-spacing(3);
+    padding-top: 0;
+  }
+
+  .countries-list {
+    border-bottom: 1px solid $govuk-border-colour;
+    display: block;
+    padding-bottom: govuk-spacing(4);
+  }
+
+  .countries-list__item {
+    box-sizing: border-box;
+    color: $govuk-secondary-text-colour;
+    float: left;
+    padding-right: govuk-spacing(3);
+    width: 50%;
+  }
+
+  .countries-list__link {
+    margin-right: govuk-spacing(2);
+  }
+}
+
+// TODO: remove input margin and border reset once the global input[type="text"]
+// styles are gone from static.
+.travel-advice {
+  #country-filter input { // stylelint-disable-line selector-max-id
+    border: 2px solid $govuk-input-border-colour;
+    margin: 0;
+  }
+}

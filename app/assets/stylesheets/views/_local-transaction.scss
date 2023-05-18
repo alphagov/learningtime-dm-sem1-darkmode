@@ -1,0 +1,13 @@
+@import "govuk_publishing_components/individual_component_support";
+
+.interaction {
+  margin-bottom: govuk-spacing(6);
+
+  .local-authority {
+    font-weight: bold;
+  }
+}
+
+.search-again {
+  margin: govuk-spacing(7) 0 govuk-spacing(3) 0;
+}

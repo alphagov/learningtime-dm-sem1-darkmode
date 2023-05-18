@@ -1,0 +1,32 @@
+<section class="homepage-section homepage-section--services-and-info">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div class="homepage-section__heading homepage-section__heading--border-none">
+        <%= render "govuk_publishing_components/components/heading", {
+          font_size: "m",
+          heading_level: 2,
+          margin_bottom: 6,
+          text: t("homepage.index.services_and_information"),
+        } %>
+      </div>
+      
+      <ul class="homepage-services-and-info__list" data-module="gem-track-click ga4-link-tracker">
+        <% t("homepage.categories").each_with_index do | item, index | %>
+          <%= render partial: "homepage/chevron_card", locals: {
+            description: item[:description],
+            link: item[:link],
+            title: item[:title],
+            track_action: "topicsLink",
+            index_values: {
+              index_section: 2,
+              index_link: index + 1,
+              index_section_count: 6,
+            },
+            index_total: t("homepage.categories").length,
+            section: t("homepage.index.services_and_information", locale: :en)
+          } %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+$govuk-compatibility-govuktemplate: false;
+$govuk-use-legacy-palette: false;
+$govuk-new-link-styles: true;
+
+// This flag stops the font from being included in this application's
+// stylesheet - the font is being served by Static across all of GOV.UK, so is
+// not needed here.
+$govuk-include-default-font-face: false;
+
+@import "govuk_publishing_components/govuk_frontend_support";
+
+// Helper stylesheets (things on more than one page layout)
+@import "helpers/truncated-url";
+
+// Reset some global styles from the `wrapper` layout
+
+.gem-c-related-navigation {
+  h3 {
+    font-size: 16px;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+// Reset some styles from the `.content` when it"s wrapped in the Govspeak
+// component. Can be removed when static is no longer being used.
+.content-block {
+  .gem-c-govspeak {
+    h2 + p,
+    h3 + p {
+      margin-top: govuk-spacing(4);
+    }
+
+    .help-notice p {
+      padding: 0;
+    }
+  }
+}
+
+.gem-c-govspeak {
+  address {
+    font-style: normal;
+  }
+}
+
+.article-container {
+  margin-bottom: govuk-spacing(6);
+
+  @include govuk-media-query($from: tablet) {
+    @include responsive-bottom-margin;
+  }
+}
+
+.govuk-roadmap__intro {
+  @include govuk-font(24);
+}
+
+.govuk-roadmap-section {
+  border-bottom: 5px solid govuk-colour("black");
+  margin-bottom: govuk-spacing(6);
+  padding-bottom: govuk-spacing(6);
+}
+
+.govuk-roadmap-section__image {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.govuk-roadmap-numbers__column {
+  @include govuk-media-query($until: desktop) {
+    width: 50%;
+  }
+}
+
+.gem-c-intervention {
+  margin-top: govuk-spacing(7);
+
+  @include govuk-media-query($until: tablet) {
+    margin-top: 0;
+  }
+}

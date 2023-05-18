@@ -1,0 +1,40 @@
+<%= render layout: 'shared/base_page', locals: {
+  main_class: ("multi-page" if licence_details.authority),
+  context: "Licence",
+  title: publication.title,
+  publication: publication,
+  edition: @edition,
+} do %>
+
+  <%= render "govuk_publishing_components/components/lead_paragraph", text: publication.description %>
+
+  <article role="article" class="group content-block">
+    <div class="inner">
+      <% if licence_details.present? %>
+        <div class="intro">
+          <div class="get-started-intro">
+            <%= render "govuk_publishing_components/components/heading", text: "Apply for this licence" %>
+            <%= render partial: 'location_form',
+                       locals: {
+                         format: 'licence',
+                         publication_format: 'licence',
+                         postcode: postcode,
+                        margin_top: @location_error ? 5 : 0,
+                       } %>
+          </div>
+        </div>
+      <% else %>
+        <%= render "govuk_publishing_components/components/warning_text", {
+          text: sanitize("You cannot apply for this licence online. #{link_to('Contact your local council', '/find-local-council', class: "govuk-link")}")
+        } %>
+      <% end %>
+
+      <div id="overview">
+        <%= render "govuk_publishing_components/components/govspeak", {
+        } do %>
+          <%= raw publication.body %>
+        <% end %>
+      </div>
+    </div>
+  </article>
+<% end %>

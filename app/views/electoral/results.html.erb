@@ -1,0 +1,47 @@
+<% content_for :extra_headers do %>
+  <meta name="robots" content="noindex">
+<% end %>
+
+<%= render layout: 'shared/base_page', locals: {
+  title: publication.title,
+  publication: publication,
+  edition: @edition,
+} do %>
+
+  <% if @presenter.electoral_services.present? %>
+    <p class="govuk-body">
+      <%= t('electoral.service.matched_postcode_html', postcode: @postcode.sanitized_postcode, electoral_service_name: @presenter.electoral_service_name) %>
+    </p>
+  <% end %>
+  <% if @presenter.use_electoral_services_contact_details? %>
+    <%= render partial: "contact_details",
+      locals: {
+        presenter: @presenter,
+        title: t("electoral.service.title"),
+        description: t("electoral.service.description"),
+        name: @presenter.electoral_service_name,
+        contact_details: @presenter.presented_electoral_service_address,
+        postcode: @presenter.electoral_services["postcode"],
+        website: @presenter.electoral_services["website"],
+        phone: @presenter.electoral_services["phone"],
+        email: @presenter.electoral_services["email"],
+        }
+    %>
+  <% end %>
+
+  <% if @presenter.use_registration_contact_details? %>
+    <%= render partial: "contact_details",
+      locals: {
+        presenter: @presenter,
+        title: t("electoral.registration.title"),
+        description: t("electoral.registration.description"),
+        name: nil,
+        contact_details: @presenter.presented_registration_address,
+        postcode: @presenter.registration["postcode"],
+        website: @presenter.registration["website"],
+        phone: @presenter.registration["phone"],
+        email: @presenter.registration["email"]
+        }
+    %>
+  <% end %>
+<% end %>
